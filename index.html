@@ -1,11 +1,385 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>Taezzang’s First Website</title>
+  <meta charset="UTF-8" />
+  <title>간단 랜딩페이지 빌더</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f7;
+      color: #222;
+    }
+    header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #ddd;
+      background: #ffffffcc;
+      backdrop-filter: blur(6px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    header p {
+      margin: 4px 0 0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .panel {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      padding: 16px 18px;
+    }
+    .left {
+      flex: 1 1 320px;
+      min-width: 280px;
+    }
+    .right {
+      flex: 2 1 480px;
+      min-width: 320px;
+    }
+    .field {
+      margin-bottom: 10px;
+    }
+    .field label {
+      display: block;
+      font-size: 0.82rem;
+      margin-bottom: 4px;
+      color: #555;
+    }
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 0.9rem;
+      font-family: inherit;
+      resize: vertical;
+    }
+    .field textarea {
+      min-height: 60px;
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    #generateBtn {
+      background: #111827;
+      color: #fff;
+    }
+    #resetBtn {
+      background: #e5e7eb;
+      color: #111827;
+    }
+    #previewTitle {
+      font-size: 0.9rem;
+      margin: 0 0 8px;
+      color: #555;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #previewTitle span {
+      font-size: 0.8rem;
+      color: #888;
+    }
+    iframe {
+      width: 100%;
+      height: 520px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background: #fff;
+    }
+
+    /* 모바일 대응 */
+    @media (max-width: 768px) {
+      header {
+        position: static;
+      }
+      iframe {
+        height: 420px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>안녕! 태짱의 첫 웹사이트 🎉</h1>
-  <p>이 페이지는 GitHub Pages로 공개된 사이트야.</p>
+  <header>
+    <h1>간단 랜딩페이지 빌더 (레이아웃 1개 버전)</h1>
+    <p>폼을 채우고 "사이트 만들기"를 누르면 오른쪽에 완성된 페이지가 미리보기로 보여져요.</p>
+  </header>
+
+  <main>
+    <!-- 왼쪽: 설정 패널 -->
+    <section class="panel left">
+      <h2 style="margin-top:0; font-size:1rem;">콘텐츠 입력</h2>
+
+      <div class="field">
+        <label for="siteTitle">브라우저 탭 제목 (사이트 제목)</label>
+        <input id="siteTitle" placeholder="예: Taezzang Studio" />
+      </div>
+
+      <div class="field">
+        <label for="mainHeading">메인 헤딩 (가장 큰 문구)</label>
+        <input id="mainHeading" placeholder="예: 태짱의 감자 랜딩페이지" />
+      </div>
+
+      <div class="field">
+        <label for="subtitle">한 줄 설명</label>
+        <input id="subtitle" placeholder="예: 귀엽고 맛있는 감자 브랜드를 소개합니다." />
+      </div>
+
+      <div class="field">
+        <label for="section1Title">섹션 1 제목</label>
+        <input id="section1Title" placeholder="예: 우리가 만드는 감자" />
+      </div>
+
+      <div class="field">
+        <label for="section1Body">섹션 1 내용</label>
+        <textarea id="section1Body" placeholder="예: 태짱 감자는 재밌고 귀여운 스토리와 함께합니다. 감자가 데굴데굴 굴러가는 모습을 상상해 보세요."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="section2Title">섹션 2 제목</label>
+        <input id="section2Title" placeholder="예: 이런 분께 추천해요" />
+      </div>
+
+      <div class="field">
+        <label for="section2Body">섹션 2 내용</label>
+        <textarea id="section2Body" placeholder="예: 감자덕후, 귀여운 캐릭터 좋아하는 사람, 작은 브랜드를 응원하고 싶은 분들께 딱이에요."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="ctaText">버튼 문구</label>
+        <input id="ctaText" placeholder="예: 지금 구경하기" />
+      </div>
+
+      <div class="field">
+        <label for="ctaLink">버튼 링크 (https:// 로 시작)</label>
+        <input id="ctaLink" placeholder="예: https://example.com" />
+      </div>
+
+      <div class="btn-row">
+        <button id="generateBtn">사이트 만들기</button>
+        <button id="resetBtn" type="button">예시 텍스트 채우기</button>
+      </div>
+    </section>
+
+    <!-- 오른쪽: 미리보기 -->
+    <section class="panel right">
+      <p id="previewTitle">
+        미리보기
+        <span>아래 화면이 실제로 만들어지는 랜딩페이지예요.</span>
+      </p>
+      <iframe id="preview" title="미리보기"></iframe>
+    </section>
+  </main>
+
+  <script>
+    // 레이아웃 1개 (심플 랜딩페이지)
+    function buildLayout(data) {
+      const safe = (v, fallback = "") => (v && v.trim() ? v : fallback);
+
+      const siteTitle   = safe(data.siteTitle,   "Taezzang Landing Page");
+      const mainHeading = safe(data.mainHeading, "태짱의 첫 랜딩페이지");
+      const subtitle    = safe(data.subtitle,    "간단한 폼만 채우면 자동으로 만들어지는 페이지입니다.");
+      const s1Title     = safe(data.section1Title, "섹션 1 제목");
+      const s1Body      = safe(data.section1Body,  "여기에 첫 번째 섹션 내용을 입력해 보세요.");
+      const s2Title     = safe(data.section2Title, "섹션 2 제목");
+      const s2Body      = safe(data.section2Body,  "여기에 두 번째 섹션 내용을 입력해 보세요.");
+      const ctaText     = safe(data.ctaText,       "자세히 보기");
+      const ctaLink     = safe(data.ctaLink,       "#");
+
+      return `
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>${siteTitle}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e0f2fe 0, #f9fafb 40%, #f3e8ff 100%);
+      color: #111827;
+    }
+    .wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 20px 24px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 2.4rem;
+    }
+    header p {
+      margin: 0;
+      font-size: 0.98rem;
+      color: #4b5563;
+      max-width: 520px;
+    }
+    main {
+      flex: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px 32px;
+    }
+    section {
+      background: rgba(255, 255, 255, 0.86);
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-top: 16px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+      backdrop-filter: blur(6px);
+    }
+    section h2 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+    section p {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #374151;
+    }
+    .cta-box {
+      text-align: center;
+      margin-top: 24px;
+    }
+    .cta {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: none;
+      background: #111827;
+      color: #f9fafb;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3);
+    }
+    .cta:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+    }
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #6b7280;
+      padding: 16px 0 20px;
+    }
+
+    @media (max-width: 640px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      section {
+        padding: 14px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>${mainHeading}</h1>
+      <p>${subtitle}</p>
+    </header>
+    <main>
+      <section>
+        <h2>${s1Title}</h2>
+        <p>${s1Body}</p>
+      </section>
+      <section>
+        <h2>${s2Title}</h2>
+        <p>${s2Body}</p>
+      </section>
+      <div class="cta-box">
+        <a class="cta" href="${ctaLink}" target="_blank" rel="noopener noreferrer">
+          ${ctaText}
+        </a>
+      </div>
+    </main>
+    <footer>
+      © ${new Date().getFullYear()} Taezzang Landing · Generated with your layout 🎈
+    </footer>
+  </div>
+</body>
+</html>
+      `;
+    }
+
+    function collectFormData() {
+      return {
+        siteTitle:      document.getElementById('siteTitle').value,
+        mainHeading:    document.getElementById('mainHeading').value,
+        subtitle:       document.getElementById('subtitle').value,
+        section1Title:  document.getElementById('section1Title').value,
+        section1Body:   document.getElementById('section1Body').value,
+        section2Title:  document.getElementById('section2Title').value,
+        section2Body:   document.getElementById('section2Body').value,
+        ctaText:        document.getElementById('ctaText').value,
+        ctaLink:        document.getElementById('ctaLink').value,
+      };
+    }
+
+    function generateSite() {
+      const data = collectFormData();
+      const html = buildLayout(data);
+      const iframe = document.getElementById('preview');
+      iframe.srcdoc = html;
+    }
+
+    document.getElementById('generateBtn').addEventListener('click', generateSite);
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      document.getElementById('siteTitle').value      = "Taezzang 감자 브랜드";
+      document.getElementById('mainHeading').value    = "태짱의 데굴데굴 감자 랜딩페이지";
+      document.getElementById('subtitle').value       = "데굴데굴 굴러다니는 감자처럼, 귀엽고 편안한 브랜드를 소개합니다.";
+      document.getElementById('section1Title').value  = "우리가 만드는 감자";
+      document.getElementById('section1Body').value   = "태짱 감자는 단순한 식재료가 아니라 하나의 작은 세계관입니다. 감자가 굴러다니며 모험하는 이야기를 담아, 보는 것만으로도 기분 좋아지는 경험을 제공합니다.";
+      document.getElementById('section2Title').value  = "이런 분께 딱이에요";
+      document.getElementById('section2Body').value   = "귀여운 캐릭터를 좋아하는 사람, 일상 속 소소한 힐링이 필요한 사람, 나만의 감자 굿즈를 가지고 싶은 사람에게 태짱 감자를 추천합니다.";
+      document.getElementById('ctaText').value        = "감자 더 보러가기";
+      document.getElementById('ctaLink').value        = "https://example.com";
+      generateSite();
+    });
+
+    // 페이지 처음 열릴 때 예시로 한 번 채워서 보여주기
+    window.addEventListener('load', () => {
+      document.getElementById('resetBtn').click();
+    });
+  </script>
 </body>
 </html>
